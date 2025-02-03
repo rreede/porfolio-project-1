@@ -1,11 +1,11 @@
 "use client";
 
-import { PageProps } from "next";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import productsList from "../../productsList";
 import Header from "@/app/ui/Header";
 import Image from "next/image";
 
-export default function Details({ params }: PageProps) {
+export default function Details({ params }: { params: Params }) {
   const handleClick = () => {
     handleInputChange(1);
     handleAddedToCart();
