@@ -20,6 +20,8 @@ export default function Details() {
 
   // Handle adding item to cart
   const handleInputChange = (quantity: number) => {
+    if (!productId) return; // Check if productId is available
+
     const productIdNumber = Number(productId); // Parse productId to number
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
