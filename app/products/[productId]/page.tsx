@@ -1,35 +1,32 @@
 "use client";
 
-import productsList from '../../productsList';
-import Header from '@/app/ui/Header';
-import Image from 'next/image';
+import { PageProps } from "next";
+import productsList from "../../productsList";
+import Header from "@/app/ui/Header";
+import Image from "next/image";
 
-export default function Details({ params }: { params: { productId: string } }) {
-
+export default function Details({ params }: PageProps) {
   const handleClick = () => {
-    handleInputChange(1); // Default quantity of 1 when clicking "Add to cart"
+    handleInputChange(1);
     handleAddedToCart();
   };
 
   const handleAddedToCart = () => {
-    alert('Added to cart');
+    alert("Added to cart");
   };
 
   // Handle adding item to cart
   const handleInputChange = (quantity: number) => {
     const productId = Number(params.productId);
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-    // Retrieve the existing cart from localStorage or initialize an empty array
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const existingProductIndex = cart.findIndex(
+      (item: { productId: number }) => item.productId === productId
+    );
 
-    // Find the index of the product in the cart
-    const existingProductIndex = cart.findIndex((item: { productId: number }) => item.productId === productId);
-
-    // If the product is already in the cart, update the quantity
     if (existingProductIndex > -1) {
       cart[existingProductIndex].quantity += quantity;
     } else {
-      // If the product is not in the cart, add a new entry
       const product = productsList.find((item: any) => item.id === productId);
       if (product) {
         cart.push({
@@ -37,17 +34,18 @@ export default function Details({ params }: { params: { productId: string } }) {
           name: product.name,
           price: product.price,
           quantity,
-          image: product.img[0], // Assuming the first image is the main one
+          image: product.img[0],
         });
       }
     }
 
-    // Save the updated cart to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(cart));
   };
 
   // Filter the product based on the productId
-  const filteredItem = productsList.filter((item: any) => item.id === Number(params.productId));
+  const filteredItem = productsList.filter(
+    (item: any) => item.id === Number(params.productId)
+  );
 
   return (
     <>
@@ -67,7 +65,6 @@ export default function Details({ params }: { params: { productId: string } }) {
                   />
                   <h2>{item.name}</h2>
                   <p>{item.price}$</p>
-                  
                 </div>
 
                 <div className="right-container">
