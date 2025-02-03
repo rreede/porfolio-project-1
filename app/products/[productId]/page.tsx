@@ -1,11 +1,14 @@
 "use client";
 
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import productsList from "../../productsList";
 import Header from "@/app/ui/Header";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
-export default function Details({ params }: { params: Params }) {
+export default function Details() {
+  const router = useRouter();
+  const { productId } = router.query; // Get productId from the router's query
+
   const handleClick = () => {
     handleInputChange(1);
     handleAddedToCart();
@@ -17,20 +20,20 @@ export default function Details({ params }: { params: Params }) {
 
   // Handle adding item to cart
   const handleInputChange = (quantity: number) => {
-    const productId = Number(params.productId);
+    const productIdNumber = Number(productId); // Parse productId to number
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
     const existingProductIndex = cart.findIndex(
-      (item: { productId: number }) => item.productId === productId
+      (item: { productId: number }) => item.productId === productIdNumber
     );
 
     if (existingProductIndex > -1) {
       cart[existingProductIndex].quantity += quantity;
     } else {
-      const product = productsList.find((item: any) => item.id === productId);
+      const product = productsList.find((item: any) => item.id === productIdNumber);
       if (product) {
         cart.push({
-          productId,
+          productId: productIdNumber,
           name: product.name,
           price: product.price,
           quantity,
@@ -44,7 +47,7 @@ export default function Details({ params }: { params: Params }) {
 
   // Filter the product based on the productId
   const filteredItem = productsList.filter(
-    (item: any) => item.id === Number(params.productId)
+    (item: any) => item.id === Number(productId)
   );
 
   return (
