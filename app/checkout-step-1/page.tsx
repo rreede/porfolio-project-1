@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Header from '../ui/Header';
 
@@ -14,7 +14,7 @@ export default function Checkout1() {
 
   const [cart, setCart] = useState<any[]>([]);
 
-  const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const totalPrice = cart?.reduce((acc, item) => acc + item.price * item.quantity, 0) || 0;
 
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function Checkout1() {
   }, []); // Empty dependency array ensures this runs only once on mount
 
   return (
-    <>
+    <div>
     <Header/>
 
     <main>
@@ -46,7 +46,7 @@ export default function Checkout1() {
               </li>
             ))}
 
-           <p><strong>Total price:</strong></p> {totalPrice} $
+           <p><strong>Total price:</strong>{totalPrice} $</p> 
 
           </ul>
         ) : (
@@ -60,6 +60,6 @@ export default function Checkout1() {
 
       </div>
       </main>
-    </>
+    </div>
   );
 }
