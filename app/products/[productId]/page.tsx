@@ -20,7 +20,7 @@ export default function Details({ params }: { params: { productId: string } }) {
     const productId = Number(params.productId);
 
     // Retrieve the existing cart from localStorage or initialize an empty array
-    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
     // Find the index of the product in the cart
     const existingProductIndex = cart.findIndex((item: { productId: number }) => item.productId === productId);

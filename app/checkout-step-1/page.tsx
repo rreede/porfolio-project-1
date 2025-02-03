@@ -8,12 +8,15 @@ import Link from "next/link";
 
 
 export default function Checkout1() {
-
   
+  interface CartItem {
+    productId: string;
+    name: string;
+    price: number;
+    quantity: number;
+  }
 
-
-  const [cart, setCart] = useState<any[]>([]);
-
+  const [cart, setCart] = useState<CartItem[]>([]);
   const totalPrice = cart?.reduce((acc, item) => acc + item.price * item.quantity, 0) || 0;
 
 
@@ -38,13 +41,13 @@ export default function Checkout1() {
       <div>
         {cart.length > 0 ? (
           <ul className='bg-gray-100 p-3 rounded-md mt-3'>
-            {cart.map((item: any) => (
-              <li className='p-3' key={item.productId}>
-                <p>{item.name}</p>
-                <p>Price: {item.price}$</p>
-                <p>Quantity: {item.quantity}</p>
-              </li>
-            ))}
+           {cart.map((item: CartItem) => (
+  <li className='p-3' key={item.productId}>
+    <p>{item.name}</p>
+    <p>Price: {item.price}$</p>
+    <p>Quantity: {item.quantity}</p>
+  </li>
+))}
 
            <p><strong>Total price:</strong>{totalPrice} $</p> 
 
